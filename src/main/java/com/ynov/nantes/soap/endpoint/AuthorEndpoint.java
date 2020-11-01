@@ -1,5 +1,7 @@
 package com.ynov.nantes.soap.endpoint;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.NonNull;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -31,7 +33,11 @@ public class AuthorEndpoint {
     @ResponsePayload
     public GetAuthorResponse getAuthor(@RequestPayload GetAuthorRequest request) {
         /// TODO
-        return null;
+        GetAuthorResponse authorAuthorResponse = new GetAuthorResponse();
+        com.ynov.nantes.soap.author.Author author = new com.ynov.nantes.soap.author.Author();
+        author = authorRepository.findById(request.getId());
+        authorAuthorResponse.setAuthor(author);
+        return authorAuthorResponse;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getAuthorsRequest")
@@ -57,9 +63,9 @@ public class AuthorEndpoint {
         return response;
     }
 
-    private com.ynov.nantes.soap.author.Author toDto(Author author) {
+    private Author toDto(Author author) {
         // TODO Auto-generated method stub
-        return (com.ynov.nantes.soap.author.Author) author;
+        return (Author) author;
     }
 
 }
